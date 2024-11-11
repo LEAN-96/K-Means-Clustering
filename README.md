@@ -2,17 +2,21 @@
 
 ## 1. Project Overview
 
-This project implements **K-Means Clustering**, an unsupervised machine learning algorithm, to solve a clustering problem. The main objective is to group data points into distinct clusters based on their similarities. The notebook walks through the entire process, from loading and preprocessing the dataset to building, training, and evaluating the K-Means model. By running this notebook, users will gain insights into how K-Means works, how to preprocess data for clustering, and how to evaluate the quality of the resulting clusters using various metrics and visualizations.
+This project demonstrates how **K-Means Clustering**, a popular machine learning algorithm, can be applied to categorize universities in the United States into meaningful groups based on various features (e.g., number of applications received, accepted students, enrollment rates, etc.). By clustering universities, we can help users identify similarities between institutions, such as whether a university is public or private, or how selective it is in its admissions process.
+
+ The notebook walks through the entire process, from loading and preprocessing the dataset to building, training, and evaluating the K-Means model. By running this notebook, users will gain insights into how K-Means works, how to preprocess data for clustering, and how to evaluate the quality of the resulting clusters using various metrics and visualizations.
 
 ### Dataset
 
-The dataset used in this project is a synthetic dataset generated specifically for demonstrating K-Means clustering. It contains multiple features (dimensions) that describe different data points, which are then clustered into groups based on their proximity in feature space. Before applying the K-Means algorithm, the data undergoes preprocessing steps such as scaling to ensure that all features contribute equally to the clustering process.
+The dataset used in this project comes from a public educational database that contains data on various U.S. colleges and universities.
 
 ### Machine Learning Methods
 
-- **K-Means Clustering**: This is an unsupervised learning algorithm used to partition data into \(k\) clusters. Each cluster is defined by its centroid, and data points are assigned to the nearest centroid. The algorithm iteratively adjusts centroids until convergence is achieved.
-  
-- **Elbow Method**: This method is used to determine the optimal number of clusters by plotting the sum of squared distances from each point to its assigned cluster center and looking for an "elbow" point where adding more clusters does not significantly improve the fit.
+- **K-Means Clustering**: K-Means is an unsupervised machine learning algorithm that divides data into **K clusters**. The goal is to partition the universities into groups where universities within the same group are more similar to each other than to universities in other groups.
+
+ The algorithm starts by randomly selecting **K** initial cluster centers (centroids).
+- Each data point (university) is assigned to the nearest centroid based on a distance metric (usually Euclidean distance).
+- The centroids are updated iteratively until the clusters stabilize, meaning universities no longer change groups.
 
 ### Notebook Overview
 
@@ -102,6 +106,38 @@ To reproduce results from this notebook:
 
 ### Interpreting Results:
 
-- **Inertia (Sum of Squared Distances)**: This metric shows how well-separated your clusters are; lower values indicate better-defined clusters.
-- **Elbow Plot**: Helps determine the optimal number of clusters by showing where adding more clusters yields diminishing returns in reducing inertia.
-- **Cluster Visualization**: Scatter plots show how well data points are grouped into their respective clusters, with centroids marked for each cluster.
+Though K-Means is unsupervised, we can compare the clusters against known attributes (e.g., private vs public) to evaluate the clustering performance. 
+
+In this project, the dataset is divided into **two clusters**, corresponding to public and private universities, based on the feature space provided.
+
+1. **Confusion Matrix**
+
+The confusion matrix shows how well the K-Means algorithm has categorized the universities into clusters. It compares the predicted cluster labels from the algorithm with the true labels (public vs. private universities).
+
+From the confusion matrix below:
+
+
+[[138 74]
+
+[531 34]]
+
+
+- **Row 1**: 138 universities were correctly identified as belonging to the first cluster (e.g., public universities), but 74 were incorrectly categorized.
+- **Row 2**: 34 universities were correctly identified as belonging to the second cluster (e.g., private universities), while 531 were misclassified.
+
+This indicates that the model is struggling to accurately distinguish between the two clusters.
+
+2. **Classification Report**
+
+
+- **Precision**: This tells us how many of the predicted universities in a given cluster actually belong to that cluster. A precision of 0.21 for cluster 0 means that only 21% of universities predicted to be in cluster 0 are indeed correctly categorized.
+- **Recall**: This tells us how many of the true universities in a given cluster were correctly identified. A recall of 0.65 for cluster 0 means that 65% of universities in cluster 0 were correctly identified, but the recall for cluster 1 is much lower.
+- **F1-Score**: The F1-score is the harmonic mean of precision and recall. A score of 0.31 for cluster 0 indicates a moderate performance, but the F1-score for cluster 1 is quite low (0.10), meaning the model is struggling to identify universities in that cluster.
+
+### Accuracy
+
+The overall accuracy of the model is **22%**, which indicates that the clustering is not very accurate. However, this can be expected with unsupervised methods like clustering, where labels are not provided during training.
+
+## Conclusion
+
+K-Means clustering helps to automatically categorize universities into meaningful groups based on their characteristics. However, the initial model needs improvement, as shown by the confusion matrix and classification report results. By refining the input features and tuning the model, we can achieve more accurate and insightful clusters that can be useful.
